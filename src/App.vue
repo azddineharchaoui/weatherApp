@@ -54,7 +54,7 @@ const translations = {
     temp: 'Temperature',
     humidity: 'Humidity',
     wind: 'Wind Speed',
-    shortForecast: 'Next 3 hours',
+    shortForecast: 'Hourly Forcasts ',
     useLocation: 'Use My Location'
   },
   fr: {
@@ -64,7 +64,7 @@ const translations = {
     temp: 'Température',
     humidity: 'Humidité',
     wind: 'Vitesse du vent',
-    shortForecast: 'Prochaines 3 heures',
+    shortForecast: 'Prévisions par heure',
     useLocation: 'Utiliser ma position'
   }
 }
@@ -110,59 +110,166 @@ function switchLanguage() {
 
 <style scoped>
 .weather-app {
-  font-family: sans-serif;
+  font-family: 'Quicksand', 'Segoe UI', Tahoma, sans-serif;
   max-width: 500px;
   margin: 2rem auto;
-  padding: 1rem;
-  border-radius: 12px;
-  background: #f0f4f8;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  border-radius: 20px;
+  background: linear-gradient(to bottom right, rgba(232, 245, 254, 0.85), rgba(240, 249, 255, 0.9));
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  color: #3a5070;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header h1 {
+  font-size: 2rem;
+  color: #2980b9;
+  margin: 0;
+}
+
+.header select {
+  padding: 0.5rem 0.8rem;
+  border-radius: 15px;
+  border: 1px solid #d8e6f2;
+  background-color: white;
+  color: #3a5070;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  outline: none;
+}
+
+.header select:hover {
+  border-color: #7aadcc;
 }
 
 .search-section {
   display: flex;
-  gap: 0.5rem;
-  margin: 1rem 0;
+  gap: 0.8rem;
+  margin: 1.2rem 0;
   flex-wrap: wrap;
 }
 
 input {
   flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  border: 1px solid #d8e6f2;
+  border-radius: 15px;
+  font-family: inherit;
+  color: #3a5070;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #7aadcc;
+  box-shadow: 0 2px 10px rgba(41, 128, 185, 0.15);
 }
 
 button {
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 1.2rem;
   border: none;
-  background: #3498db;
+  background: linear-gradient(135deg, #3498db, #2980b9);
   color: white;
-  border-radius: 6px;
+  border-radius: 15px;
   cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 8px rgba(41, 128, 185, 0.2);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(41, 128, 185, 0.3);
+}
+
+button:active {
+  transform: translateY(0);
 }
 
 .current-weather, .forecast {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   text-align: center;
+  background-color: rgba(255, 255, 255, 0.65);
+  border-radius: 18px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.current-weather h2 {
+  color: #2980b9;
+  margin-top: 0;
+}
+
+.current-weather img {
+  width: 90px;
+  height: 90px;
+  margin: 0.5rem 0;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.1));
+}
+
+.current-weather p {
+  margin: 0.7rem 0;
+  font-size: 1.1rem;
+}
+
+.forecast h3 {
+  color: #2980b9;
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 .forecast-items {
   display: flex;
-  justify-content: space-around;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 12px;
+  padding: 10px 0;
   margin-top: 0.5rem;
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .forecast-item {
   background: white;
-  padding: 0.5rem;
-  border-radius: 8px;
-  width: 30%;
+  padding: 0.8rem;
+  border-radius: 15px;
+  min-width: 110px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.forecast-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.forecast-item p {
+  margin: 0.5rem 0;
+  font-weight: 500;
+}
+
+.forecast-item img {
+  width: 60px;
+  height: 60px;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.1));
 }
 </style>
